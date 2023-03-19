@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import {
-  getCharacters,
-  setQuery as setSearch,
-} from "../redux/characters/charactersActions";
+import { getCharacters } from "../redux/characters/charactersActions";
 import { UseAppDispatch, UseAppSelector } from "../hooks";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../components/Header/Header";
@@ -14,18 +11,26 @@ import { styles } from "../index.styles";
 
 const HomeScreen = ({ navigation }) => {
   const [query, setQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const data = UseAppSelector((state) => state?.characters?.charactersData);
   const dispatch = UseAppDispatch();
 
   useEffect(() => {
     dispatch(getCharacters());
-
-    if (query.trim()) {
-      dispatch(setSearch(query));
-    }
   }, []);
 
-  if (data) {
+  useEffect(() => {
+    if (data?.length) {
+      const filtered = data.filter((character) =>
+        character.name.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  }, [query, data]);
+
+  if (!data?.length) {
+    return <Loader />;
+  } else {
     return (
       <View style={styles.container}>
         <Header />
@@ -42,41 +47,43 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
 
           <View style={styles.row}>
-            <TouchableOpacity style={styles.icon}>
+            <View style={styles.icon}>
               <AntDesign name="heart" size={16} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.title}>
-              <View style={[styles.ceil, styles.headCeil, styles.name]}>
+            </View>
+            <View style={styles.title}>
+              <TouchableOpacity
+                style={[styles.ceil, styles.headCeil, styles.name]}
+              >
                 <Text style={styles.text}>Name</Text>
-              </View>
-              <View style={[styles.ceil, styles.headCeil]}>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.ceil, styles.headCeil]}>
                 <Text style={styles.text}>Birth Year</Text>
-              </View>
-              <View style={[styles.ceil, styles.headCeil]}>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.ceil, styles.headCeil]}>
                 <Text style={styles.text}>Gender</Text>
-              </View>
-              <View style={[styles.ceil, styles.headCeil]}>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.ceil, styles.headCeil]}>
                 <Text style={styles.text}>Home World</Text>
-              </View>
-              <View style={[styles.ceil, styles.headCeil]}>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.ceil, styles.headCeil]}>
                 <Text style={styles.text}>Species</Text>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </View>
-          {data.map((el: ICharacter) => {
-            return (
-              <CharacterRow
-                key={el.name}
-                data={el}
-                onPress={() => navigation.navigate("CharacterInfo", el)}
-              />
-            );
-          })}
+          {!filteredData.length
+            ? null
+            : filteredData.map((el: ICharacter) => {
+                return (
+                  <CharacterRow
+                    key={el.name}
+                    data={el}
+                    onPress={() => navigation.navigate("CharacterInfo", el)}
+                  />
+                );
+              })}
         </View>
       </View>
     );
-  } else {
-    return <Loader />;
   }
 };
 

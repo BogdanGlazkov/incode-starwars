@@ -8,6 +8,7 @@ import { styles } from "../../index.styles";
 const CharacterRow = ({ data, onPress }) => {
   const [world, setWorld] = useState("");
   const [spec, setSpec] = useState("");
+  const [isFavorite, setIsFavorite] = useState(false);
   const { name, birth_year, gender, homeworld, species } = data;
 
   const getHomeworld = async () => {
@@ -35,9 +36,21 @@ const CharacterRow = ({ data, onPress }) => {
 
   return (
     <View style={styles.row}>
-      <TouchableOpacity style={styles.icon}>
-        <AntDesign name="hearto" size={16} color="red" />
-      </TouchableOpacity>
+      {isFavorite ? (
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => setIsFavorite(false)}
+        >
+          <AntDesign name="heart" size={16} color="red" />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => setIsFavorite(true)}
+        >
+          <AntDesign name="hearto" size={16} color="red" />
+        </TouchableOpacity>
+      )}
       <TouchableOpacity style={styles.title} onPress={onPress}>
         <View style={[styles.ceil, styles.name]}>
           <Text style={styles.text}>{name}</Text>
