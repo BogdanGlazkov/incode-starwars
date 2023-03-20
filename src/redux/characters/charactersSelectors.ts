@@ -1,4 +1,7 @@
+import { IState } from "./charactersTypes";
+
 export default {
-  getFavorites: (state) => state.characters.favorites,
-  getGenderCount: (state) => state.characters.genderCount,
+  getCharacters: (state: IState) => state.charactersData,
+  getFavorites: (state: IState) => state.favorites,
+  getGenderCount: (state: IState) => state.genderCount,
 };

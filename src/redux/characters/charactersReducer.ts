@@ -22,35 +22,40 @@ const initialState = {
 };
 
 export const charactersReducer = (state = initialState, { type, payload }) => {
+  const newCount = { ...state.genderCount };
   switch (type) {
     case GET_CHARACTERS:
       return { ...state };
     case SET_CHARACTERS:
       return { ...state, error: null, charactersData: payload };
     case ADD_FAVORITE:
-      // payload.gender === "female"
-      //   ? (state.genderCount.female += 1)
-      //   : payload.gender === "male"
-      //   ? (state.genderCount.male += 1)
-      //   : (state.genderCount.others += 1);
+      if (payload.gender === "female") {
+        newCount.female += 1;
+      } else if (payload.gender === "male") {
+        newCount.male += 1;
+      } else {
+        newCount.others += 1;
+      }
       return {
         ...state,
         favorites: [...state.favorites, payload],
-        genderCount: { ...state.genderCount },
+        genderCount: { ...newCount },
       };
     case REMOVE_FAVORITE:
+      if (payload.gender === "female") {
+        newCount.female -= 1;
+      } else if (payload.gender === "male") {
+        newCount.male -= 1;
+      } else {
+        newCount.others -= 1;
+      }
       return {
         ...state,
         favorites: state.favorites.filter((el) => el.name !== payload.name),
-        genderCount:
-          payload.gender === "female"
-            ? (state.genderCount.female -= 1)
-            : payload.gender === "male"
-            ? (state.genderCount.male -= 1)
-            : (state.genderCount.others -= 1),
+        genderCount: { ...newCount },
       };
     case CLEAR_FAVORITES:
-      return { ...state, favorites: [] };
+      return { ...state, favorites: [], genderCount: initialGenderCount };
     case SET_ERROR:
       return { ...state, error: payload };
     case SKIP_ERROR:

@@ -48,7 +48,6 @@ const CharacterRow = ({ data, onPress }) => {
     } else {
       setIsFavorite(false);
     }
-    console.log(123, favList, count);
   });
 
   return (
