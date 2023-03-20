@@ -41,9 +41,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
-  card: {
-    marginTop: "15%",
-  },
+  card: {},
 
   name: {
     fontSize: 36,

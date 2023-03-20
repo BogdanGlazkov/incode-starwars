@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { getCharacters } from "../redux/characters/charactersActions";
 import { UseAppDispatch, UseAppSelector } from "../hooks";
 import { AntDesign } from "@expo/vector-icons";
@@ -34,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
     return (
       <View style={styles.container}>
         <Header />
-        <View style={styles.table}>
+        <ScrollView style={styles.table}>
           <TouchableOpacity style={styles.input}>
             <AntDesign name="search1" size={24} color="black" />
             <TextInput
@@ -81,7 +87,7 @@ const HomeScreen = ({ navigation }) => {
                   />
                 );
               })}
-        </View>
+        </ScrollView>
       </View>
     );
   }

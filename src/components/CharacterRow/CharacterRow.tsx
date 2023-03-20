@@ -12,7 +12,6 @@ import { styles } from "../../index.styles";
 
 const CharacterRow = ({ data, onPress }) => {
   const favList = UseAppSelector((state) => state?.characters?.favorites);
-  const count = UseAppSelector((state) => state?.characters?.genderCount);
   const { name, birth_year, gender, homeworld, species } = data;
   const [world, setWorld] = useState("");
   const [spec, setSpec] = useState("");
@@ -21,7 +20,8 @@ const CharacterRow = ({ data, onPress }) => {
 
   const getHomeworld = async () => {
     try {
-      const { data } = await axios.get<IString>(homeworld);
+      // if (!homeworld.lenght) return;
+      const { data } = await axios.get<IString>(`${homeworld}`);
       setWorld(data.name);
     } catch (error) {
       console.log("error: ", error.message);
@@ -30,7 +30,8 @@ const CharacterRow = ({ data, onPress }) => {
 
   const getSpecies = async () => {
     try {
-      const { data } = await axios.get<IString>(species);
+      // if (!species.lenght) return;
+      const { data } = await axios.get<IString>(`${species}`);
       setSpec(data.name);
     } catch (error) {
       console.log("error: ", error.message);

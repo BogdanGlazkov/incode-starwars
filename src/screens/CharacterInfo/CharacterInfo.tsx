@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { styles } from "./CharacterInfo.styles";
 
@@ -34,7 +40,7 @@ const CharacterInfo = ({ navigation, route }) => {
         </View>
       </View>
       <View style={styles.mainContainer}>
-        <View style={styles.card}>
+        <ScrollView style={styles.card}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.info}>Birth Year: {birth_year || " "}</Text>
           <Text style={styles.info}>Gender: {gender || " "}</Text>
@@ -46,7 +52,7 @@ const CharacterInfo = ({ navigation, route }) => {
           <Text style={styles.info} onPress={() => Linking.openURL(url)}>
             Url address: {url || " "}
           </Text>
-        </View>
+        </ScrollView>
       </View>
     </View>
   );

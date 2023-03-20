@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    fontFamily: "Roboto, sans-serif",
+    fontFamily: "sans-serif",
     backgroundColor: "#eaf1f1",
   },
 

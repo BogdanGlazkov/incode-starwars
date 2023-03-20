@@ -11,12 +11,12 @@ const Main = () => {
     <NavigationContainer>
       <MainStack.Navigator initialRouteName="Home">
         <MainStack.Screen
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: "Star Wars Characters" }}
           name="Home"
           component={Home}
         />
         <MainStack.Screen
-          options={{ headerShown: false }}
+          options={{ headerShown: false, title: "Character Info" }}
           name="CharacterInfo"
           component={CharacterInfo}
         />
