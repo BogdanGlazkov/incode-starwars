@@ -1,1 +1,4 @@
-export default { getQuery: (state) => state.characters.query };
+export default {
+  getFavorites: (state) => state.characters.favorites,
+  getGenderCount: (state) => state.characters.genderCount,
+};

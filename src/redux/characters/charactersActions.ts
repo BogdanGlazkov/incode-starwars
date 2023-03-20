@@ -1,18 +1,13 @@
 import {
-  SET_QUERY,
   GET_CHARACTERS,
   SET_CHARACTERS,
+  ADD_FAVORITE,
+  REMOVE_FAVORITE,
+  CLEAR_FAVORITES,
   SET_ERROR,
   SKIP_ERROR,
 } from "../types";
-import { IData } from "./charactersTypes";
-
-export function setQuery(city: string) {
-  return {
-    type: SET_QUERY,
-    payload: city,
-  };
-}
+import { IData, IFavorite } from "./charactersTypes";
 
 export function getCharacters() {
   return {
@@ -24,6 +19,26 @@ export function setCharacters(charactersData: IData) {
   return {
     type: SET_CHARACTERS,
     payload: charactersData,
+  };
+}
+
+export function addFavorite(favorite: IFavorite) {
+  return {
+    type: ADD_FAVORITE,
+    payload: favorite,
+  };
+}
+
+export function removeFavorite(favorite: IFavorite) {
+  return {
+    type: REMOVE_FAVORITE,
+    payload: favorite,
+  };
+}
+
+export function clearFavorites() {
+  return {
+    type: CLEAR_FAVORITES,
   };
 }
 
@@ -43,6 +58,5 @@ export function skipError() {
 }
 
 export type CharactersActions =
-  | typeof setQuery
-  | typeof getCharacters
-  | typeof setError;
+  // | typeof setQuery
+  typeof getCharacters | typeof setCharacters;

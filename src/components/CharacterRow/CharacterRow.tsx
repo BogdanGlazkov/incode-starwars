@@ -3,18 +3,26 @@ import axios from "axios";
 import { View, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { IString } from "../../redux/characters/charactersTypes";
+import { UseAppDispatch, UseAppSelector } from "../../hooks";
+import {
+  addFavorite,
+  removeFavorite,
+} from "../../redux/characters/charactersActions";
 import { styles } from "../../index.styles";
 
 const CharacterRow = ({ data, onPress }) => {
+  const favList = UseAppSelector((state) => state?.characters?.favorites);
+  const count = UseAppSelector((state) => state?.characters?.genderCount);
+  const { name, birth_year, gender, homeworld, species } = data;
   const [world, setWorld] = useState("");
   const [spec, setSpec] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
-  const { name, birth_year, gender, homeworld, species } = data;
+  const dispatch = UseAppDispatch();
 
   const getHomeworld = async () => {
     try {
       const { data } = await axios.get<IString>(homeworld);
-      await setWorld(data.name);
+      setWorld(data.name);
     } catch (error) {
       console.log("error: ", error.message);
     }
@@ -23,7 +31,7 @@ const CharacterRow = ({ data, onPress }) => {
   const getSpecies = async () => {
     try {
       const { data } = await axios.get<IString>(species);
-      await setSpec(data.name);
+      setSpec(data.name);
     } catch (error) {
       console.log("error: ", error.message);
     }
@@ -34,19 +42,28 @@ const CharacterRow = ({ data, onPress }) => {
     getSpecies();
   }, []);
 
+  useEffect(() => {
+    if (favList.some((el) => el.name === name)) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
+    console.log(123, favList, count);
+  });
+
   return (
     <View style={styles.row}>
       {isFavorite ? (
         <TouchableOpacity
           style={styles.icon}
-          onPress={() => setIsFavorite(false)}
+          onPress={() => dispatch(removeFavorite({ name, gender }))}
         >
           <AntDesign name="heart" size={16} color="red" />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
           style={styles.icon}
-          onPress={() => setIsFavorite(true)}
+          onPress={() => dispatch(addFavorite({ name, gender }))}
         >
           <AntDesign name="hearto" size={16} color="red" />
         </TouchableOpacity>

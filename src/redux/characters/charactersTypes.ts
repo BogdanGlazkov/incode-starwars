@@ -16,9 +16,21 @@ export interface ICharacter {
   species: string[];
 }
 
+export interface IFavorite {
+  name: string;
+  gender: string;
+}
+
+export interface IGenderCount {
+  female: number;
+  male: number;
+  others: number;
+}
+
 export interface IState {
   charactersData: IData;
-  query: string;
+  favorites: IFavorite[];
+  genderCount: IGenderCount;
   error: string | null;
 }
 
