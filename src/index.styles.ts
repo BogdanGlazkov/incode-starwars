@@ -59,6 +59,14 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 6,
   },
+
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    gap: 10,
+  },
+  pageLabel: { fontSize: 16 },
 });
 
 export { styles };

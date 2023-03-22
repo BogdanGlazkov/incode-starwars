@@ -1,13 +1,14 @@
 import {
   GET_CHARACTERS,
   SET_CHARACTERS,
+  SET_PAGE,
   ADD_FAVORITE,
   REMOVE_FAVORITE,
   CLEAR_FAVORITES,
   SET_ERROR,
   SKIP_ERROR,
 } from "../types";
-import { IData, IFavorite } from "./charactersTypes";
+import { IData, IPage, IFavorite } from "./charactersTypes";
 
 export function getCharacters() {
   return {
@@ -19,6 +20,13 @@ export function setCharacters(charactersData: IData) {
   return {
     type: SET_CHARACTERS,
     payload: charactersData,
+  };
+}
+
+export function setPage(page: IPage) {
+  return {
+    type: SET_PAGE,
+    payload: page,
   };
 }
 

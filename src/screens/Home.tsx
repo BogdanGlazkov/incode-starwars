@@ -19,6 +19,7 @@ const HomeScreen = ({ navigation }) => {
   const [query, setQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const data = UseAppSelector((state) => state?.characters?.charactersData);
+  const page = UseAppSelector((state) => state?.characters?.page);
   const dispatch = UseAppDispatch();
 
   useEffect(() => {
@@ -31,8 +32,9 @@ const HomeScreen = ({ navigation }) => {
         character.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredData(filtered);
+      console.log("page===>>>", page);
     }
-  }, [query, data]);
+  }, [query, data, page]);
 
   if (!data?.length) {
     return <Loader />;
@@ -87,6 +89,17 @@ const HomeScreen = ({ navigation }) => {
                   />
                 );
               })}
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity disabled={page.current - 1 <= 0}>
+              <AntDesign name="arrowleft" size={16} color="black" />
+            </TouchableOpacity>
+            <Text
+              style={styles.pageLabel}
+            >{`Page ${page.current} of ${page.total}`}</Text>
+            <TouchableOpacity disabled={page.current >= page.total}>
+              <AntDesign name="arrowright" size={16} color="black" />
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     );

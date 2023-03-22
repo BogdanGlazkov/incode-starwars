@@ -1,6 +1,7 @@
 import {
   GET_CHARACTERS,
   SET_CHARACTERS,
+  SET_PAGE,
   ADD_FAVORITE,
   REMOVE_FAVORITE,
   CLEAR_FAVORITES,
@@ -16,6 +17,7 @@ const initialGenderCount = {
 
 const initialState = {
   charactersData: null,
+  page: { current: 1, total: 1 },
   favorites: [],
   genderCount: initialGenderCount,
   error: null,
@@ -28,6 +30,8 @@ export const charactersReducer = (state = initialState, { type, payload }) => {
       return { ...state };
     case SET_CHARACTERS:
       return { ...state, error: null, charactersData: payload };
+    case SET_PAGE:
+      return { ...state, page: payload };
     case ADD_FAVORITE:
       if (payload.gender === "female") {
         newCount.female += 1;

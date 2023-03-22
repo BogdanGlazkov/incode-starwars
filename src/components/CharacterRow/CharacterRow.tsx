@@ -20,7 +20,6 @@ const CharacterRow = ({ data, onPress }) => {
 
   const getHomeworld = async () => {
     try {
-      // if (!homeworld.lenght) return;
       const { data } = await axios.get<IString>(`${homeworld}`);
       setWorld(data.name);
     } catch (error) {
@@ -30,7 +29,6 @@ const CharacterRow = ({ data, onPress }) => {
 
   const getSpecies = async () => {
     try {
-      // if (!species.lenght) return;
       const { data } = await axios.get<IString>(`${species}`);
       setSpec(data.name);
     } catch (error) {

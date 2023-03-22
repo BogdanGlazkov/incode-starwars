@@ -1,7 +1,11 @@
 import { Alert } from "react-native";
 import { all, call, put, takeLeading } from "redux-saga/effects";
 import { GET_CHARACTERS } from "../types";
-import { setCharacters, setError } from "../characters/charactersActions";
+import {
+  setCharacters,
+  setPage,
+  setError,
+} from "../characters/charactersActions";
 import { getCharactersApi } from "../../services/api";
 
 export function* workerGetCurrent() {
@@ -14,7 +18,11 @@ export function* workerGetCurrent() {
       return;
     }
     if (data) {
-      yield put(setCharacters(data));
+      const total = Math.ceil(data.count / 10);
+      const current = data.next ? data.next.split("page=")[1] - 1 : total;
+      console.log(22, current, total);
+      yield put(setCharacters(data.results));
+      yield put(setPage({ current, total }));
     }
   } catch (error) {
     Alert.alert("Something went wrong. Try again, please");

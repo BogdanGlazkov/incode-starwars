@@ -16,6 +16,11 @@ export interface ICharacter {
   species: string[];
 }
 
+export interface IPage {
+  current: number;
+  total: number;
+}
+
 export interface IFavorite {
   name: string;
   gender: string;
@@ -29,6 +34,7 @@ export interface IGenderCount {
 
 export interface IState {
   charactersData: IData;
+  page: IPage;
   favorites: IFavorite[];
   genderCount: IGenderCount;
   error: string | null;
