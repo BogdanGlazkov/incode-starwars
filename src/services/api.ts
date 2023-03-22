@@ -4,8 +4,19 @@ const BASE_URL = "https://swapi.dev/api";
 
 export const getCharactersApi = () => async () => {
   try {
-    const res = await axios.get<IData>(`${BASE_URL}/people/?page=${1}`);
+    const res = await axios.get<IData>(`${BASE_URL}/people`);
     console.log("res.data", res.data);
+
+    return res.data;
+  } catch (error) {
+    console.log("error: ", error.message);
+  }
+};
+
+export const getCharactersApiByPage = (page) => async () => {
+  try {
+    const res = await axios.get<IData>(`${BASE_URL}/people/?page=${page}`);
+    console.log("res.data by page", res.data);
 
     return res.data;
   } catch (error) {

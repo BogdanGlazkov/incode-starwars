@@ -51,11 +51,9 @@ export function clearFavorites() {
 }
 
 export function setError(error: string) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_ERROR,
-      payload: error,
-    });
+  return {
+    type: SET_ERROR,
+    payload: error,
   };
 }
 
@@ -65,6 +63,4 @@ export function skipError() {
   };
 }
 
-export type CharactersActions =
-  // | typeof setQuery
-  typeof getCharacters | typeof setCharacters;
+export type CharactersActions = typeof getCharacters | typeof setCharacters;
