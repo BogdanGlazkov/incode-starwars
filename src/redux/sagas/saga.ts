@@ -1,16 +1,25 @@
 import { Alert } from "react-native";
-import { all, call, put, takeLeading } from "redux-saga/effects";
-import { GET_CHARACTERS } from "../types";
+import {
+  all,
+  call,
+  put,
+  select,
+  takeLatest,
+  takeLeading,
+} from "redux-saga/effects";
+import { GET_CHARACTERS, SET_PAGE, CHANGE_PAGE } from "../types";
 import {
   setCharacters,
   setPage,
   setError,
 } from "../characters/charactersActions";
-import { getCharactersApi } from "../../services/api";
+import { getCharactersApi, getCharactersApiByPage } from "../../services/api";
+import state from "../characters/charactersSelectors";
 
 export function* workerGetCurrent() {
   try {
-    const data = yield call(getCharactersApi());
+    const page = yield select(state.getPage);
+    const data = yield call(getCharactersApiByPage(page.current || 1));
 
     if (!data) {
       Alert.alert("Something went wrong. Try again, please");
@@ -20,7 +29,6 @@ export function* workerGetCurrent() {
     if (data) {
       const total = Math.ceil(data.count / 10);
       const current = data.next ? data.next.split("page=")[1] - 1 : total;
-      console.log(22, current, total);
       yield put(setCharacters(data.results));
       yield put(setPage({ current, total }));
     }
@@ -32,7 +40,10 @@ export function* workerGetCurrent() {
 
 export function* watcherSaga() {
   console.log("Saga connected");
-  yield all([takeLeading(GET_CHARACTERS, workerGetCurrent)]);
+  yield all([
+    takeLeading(SET_PAGE, workerGetCurrent),
+    takeLatest(CHANGE_PAGE, workerGetCurrent),
+  ]);
 }
 
 export default function* rootSaga() {

@@ -32,12 +32,16 @@ export interface IGenderCount {
   others: number;
 }
 
-export interface IState {
+export interface IStateCharacter {
   charactersData: IData;
   page: IPage;
   favorites: IFavorite[];
   genderCount: IGenderCount;
   error: string | null;
+}
+
+export interface IState {
+  characters: IStateCharacter;
 }
 
 export interface IGetCharacters {

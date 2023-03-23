@@ -2,6 +2,7 @@ import {
   GET_CHARACTERS,
   SET_CHARACTERS,
   SET_PAGE,
+  CHANGE_PAGE,
   ADD_FAVORITE,
   REMOVE_FAVORITE,
   CLEAR_FAVORITES,
@@ -10,9 +11,10 @@ import {
 } from "../types";
 import { IData, IPage, IFavorite } from "./charactersTypes";
 
-export function getCharacters() {
+export function getCharacters(page: number) {
   return {
     type: GET_CHARACTERS,
+    payload: page,
   };
 }
 
@@ -26,6 +28,13 @@ export function setCharacters(charactersData: IData) {
 export function setPage(page: IPage) {
   return {
     type: SET_PAGE,
+    payload: page,
+  };
+}
+
+export function changePage(page: number) {
+  return {
+    type: CHANGE_PAGE,
     payload: page,
   };
 }

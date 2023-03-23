@@ -2,6 +2,7 @@ import {
   GET_CHARACTERS,
   SET_CHARACTERS,
   SET_PAGE,
+  CHANGE_PAGE,
   ADD_FAVORITE,
   REMOVE_FAVORITE,
   CLEAR_FAVORITES,
@@ -32,6 +33,11 @@ export const charactersReducer = (state = initialState, { type, payload }) => {
       return { ...state, error: null, charactersData: payload };
     case SET_PAGE:
       return { ...state, page: payload };
+    case CHANGE_PAGE:
+      return {
+        ...state,
+        page: { ...state.page, current: payload },
+      };
     case ADD_FAVORITE:
       if (payload.gender === "female") {
         newCount.female += 1;

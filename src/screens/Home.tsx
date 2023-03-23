@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { getCharacters } from "../redux/characters/charactersActions";
+import { setPage, changePage } from "../redux/characters/charactersActions";
 import { UseAppDispatch, UseAppSelector } from "../hooks";
 import { AntDesign } from "@expo/vector-icons";
 import Header from "../components/Header/Header";
@@ -22,19 +22,26 @@ const HomeScreen = ({ navigation }) => {
   const page = UseAppSelector((state) => state?.characters?.page);
   const dispatch = UseAppDispatch();
 
+  const onNextPage = () => {
+    dispatch(changePage(page.current + 1));
+  };
+
+  const onPrevPage = () => {
+    dispatch(changePage(page.current - 1));
+  };
+
   useEffect(() => {
-    dispatch(getCharacters());
+    dispatch(setPage(page?.current || 1));
   }, []);
 
   useEffect(() => {
     if (data?.length) {
-      const filtered = data.filter((character) =>
+      const filtered = data.filter((character: ICharacter) =>
         character.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredData(filtered);
-      console.log("page===>>>", page);
     }
-  }, [query, data, page]);
+  }, [query, data]);
 
   if (!data?.length) {
     return <Loader />;
@@ -90,13 +97,19 @@ const HomeScreen = ({ navigation }) => {
                 );
               })}
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity disabled={page.current - 1 <= 0}>
+            <TouchableOpacity
+              onPress={onPrevPage}
+              disabled={page.current - 1 <= 0}
+            >
               <AntDesign name="arrowleft" size={16} color="black" />
             </TouchableOpacity>
             <Text
               style={styles.pageLabel}
             >{`Page ${page.current} of ${page.total}`}</Text>
-            <TouchableOpacity disabled={page.current >= page.total}>
+            <TouchableOpacity
+              onPress={onNextPage}
+              disabled={page.current >= page.total}
+            >
               <AntDesign name="arrowright" size={16} color="black" />
             </TouchableOpacity>
           </View>
