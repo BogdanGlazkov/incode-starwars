@@ -3,7 +3,7 @@
     "name": "incode-starwars",
     "slug": "incode-starwars",
     "version": "1.0.0",
-    "orientation": "landscape",
+    "orientation": "adaptive",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {

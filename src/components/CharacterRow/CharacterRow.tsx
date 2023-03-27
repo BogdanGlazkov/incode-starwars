@@ -37,9 +37,9 @@ const CharacterRow = ({ data, onPress }) => {
   };
 
   useEffect(() => {
-    getHomeworld();
-    getSpecies();
-  }, []);
+    homeworld.length && getHomeworld();
+    species.length && getSpecies();
+  }, [homeworld, species]);
 
   useEffect(() => {
     if (favList.some((el) => el.name === name)) {

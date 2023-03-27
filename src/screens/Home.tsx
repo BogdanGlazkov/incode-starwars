@@ -5,6 +5,8 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  SafeAreaView,
+  Platform,
 } from "react-native";
 import { setPage, changePage } from "../redux/characters/charactersActions";
 import { UseAppDispatch, UseAppSelector } from "../hooks";
@@ -17,16 +19,19 @@ import { styles } from "../index.styles";
 
 const HomeScreen = ({ navigation }) => {
   const [query, setQuery] = useState("");
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const data = UseAppSelector((state) => state?.characters?.charactersData);
   const page = UseAppSelector((state) => state?.characters?.page);
   const dispatch = UseAppDispatch();
 
   const onNextPage = () => {
+    setIsBtnDisabled(true);
     dispatch(changePage(page.current + 1));
   };
 
   const onPrevPage = () => {
+    setIsBtnDisabled(true);
     dispatch(changePage(page.current - 1));
   };
 
@@ -40,6 +45,7 @@ const HomeScreen = ({ navigation }) => {
         character.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredData(filtered);
+      setIsBtnDisabled(false);
     }
   }, [query, data]);
 
@@ -47,7 +53,12 @@ const HomeScreen = ({ navigation }) => {
     return <Loader />;
   } else {
     return (
-      <View style={styles.container}>
+      <SafeAreaView
+        style={{
+          ...styles.container,
+          paddingTop: Platform.OS === "ios" ? 40 : 30,
+        }}
+      >
         <Header />
         <ScrollView style={styles.table}>
           <TouchableOpacity style={styles.input}>
@@ -99,7 +110,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.buttonsContainer}>
             <TouchableOpacity
               onPress={onPrevPage}
-              disabled={page.current - 1 <= 0}
+              disabled={page.current - 1 <= 0 || isBtnDisabled}
             >
               <AntDesign name="arrowleft" size={16} color="black" />
             </TouchableOpacity>
@@ -108,13 +119,13 @@ const HomeScreen = ({ navigation }) => {
             >{`Page ${page.current} of ${page.total}`}</Text>
             <TouchableOpacity
               onPress={onNextPage}
-              disabled={page.current >= page.total}
+              disabled={page.current >= page.total || isBtnDisabled}
             >
               <AntDesign name="arrowright" size={16} color="black" />
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 };
