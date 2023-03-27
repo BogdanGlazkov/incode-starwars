@@ -7,13 +7,13 @@ import {
   takeLatest,
   takeLeading,
 } from "redux-saga/effects";
-import { GET_CHARACTERS, SET_PAGE, CHANGE_PAGE } from "../types";
+import { SET_PAGE, CHANGE_PAGE } from "../types";
 import {
   setCharacters,
   setPage,
   setError,
 } from "../characters/charactersActions";
-import { getCharactersApi, getCharactersApiByPage } from "../../services/api";
+import { getCharactersApiByPage } from "../../services/api";
 import state from "../characters/charactersSelectors";
 
 export function* workerGetCurrent() {
